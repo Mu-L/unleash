@@ -20,7 +20,6 @@ export type IFlagKey =
     | 'disableBulkToggle'
     | 'advancedPlayground'
     | 'filterInvalidClientMetrics'
-    | 'filterExistingFlagNames'
     | 'disableMetrics'
     | 'signals'
     | 'automatedActions'
@@ -56,17 +55,17 @@ export type IFlagKey =
     | 'deltaApi'
     | 'uniqueSdkTracking'
     | 'consumptionModel'
-    | 'teamsIntegrationChangeRequests'
     | 'edgeObservability'
     | 'addEditStrategy'
-    | 'flagsOverviewSearch'
-    | 'flagsReleaseManagementUI'
     | 'cleanupReminder'
     | 'removeInactiveApplications'
     | 'registerFrontendClient'
     | 'featureLinks'
     | 'projectLinkTemplates'
-    | 'reportUnknownFlags';
+    | 'reportUnknownFlags'
+    | 'lastSeenBulkQuery'
+    | 'newGettingStartedEmail'
+    | 'customMetrics';
 
 export type IFlags = Partial<{ [key in IFlagKey]: boolean | Variant }>;
 
@@ -113,10 +112,6 @@ const flags: IFlags = {
         false,
     ),
     filterInvalidClientMetrics: parseEnvVarBoolean(
-        process.env.FILTER_INVALID_CLIENT_METRICS,
-        false,
-    ),
-    filterExistingFlagNames: parseEnvVarBoolean(
         process.env.FILTER_INVALID_CLIENT_METRICS,
         false,
     ),
@@ -271,10 +266,6 @@ const flags: IFlags = {
         process.env.EXPERIMENTAL_CONSUMPTION_MODEL,
         false,
     ),
-    teamsIntegrationChangeRequests: parseEnvVarBoolean(
-        process.env.EXPERIMENTAL_TEAMS_INTEGRATION_CHANGE_REQUESTS,
-        false,
-    ),
     edgeObservability: parseEnvVarBoolean(
         process.env.EXPERIMENTAL_EDGE_OBSERVABILITY,
         false,
@@ -283,14 +274,7 @@ const flags: IFlags = {
         process.env.UNLEASH_EXPERIMENTAL_ADD_EDIT_STRATEGY,
         false,
     ),
-    flagsOverviewSearch: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_FLAGS_OVERVIEW_SEARCH,
-        false,
-    ),
-    flagsReleaseManagementUI: parseEnvVarBoolean(
-        process.env.UNLEASH_EXPERIMENTAL_FLAGS_RELEASE_MANAGEMENT_UI,
-        false,
-    ),
+
     cleanupReminder: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_CLEANUP_REMINDER,
         false,
@@ -313,6 +297,14 @@ const flags: IFlags = {
     ),
     reportUnknownFlags: parseEnvVarBoolean(
         process.env.UNLEASH_EXPERIMENTAL_REPORT_UNKNOWN_FLAGS,
+        false,
+    ),
+    lastSeenBulkQuery: parseEnvVarBoolean(
+        process.env.UNLEASH_EXPERIMENTAL_LAST_SEEN_BULK_QUERY,
+        false,
+    ),
+    newGettingStartedEmail: parseEnvVarBoolean(
+        process.env.UNLEASH_EXPERIMENTAL_NEW_GETTING_STARTED_EMAIL,
         false,
     ),
 };

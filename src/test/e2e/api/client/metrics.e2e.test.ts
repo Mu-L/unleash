@@ -24,6 +24,7 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
+    await app.services.clientInstanceService.bulkAdd(); // flush
     await Promise.all([
         db.stores.clientMetricsStoreV2.deleteAll(),
         db.stores.clientInstanceStore.deleteAll(),
@@ -73,8 +74,53 @@ test('should create instance if does not exist', async () => {
         .post('/api/client/metrics')
         .send(metricsExample)
         .expect(202);
+    await app.services.clientInstanceService.bulkAdd();
     const finalInstances = await db.stores.clientInstanceStore.getAll();
     expect(finalInstances.length).toBe(1);
+});
+
+test('should accept custom metrics', async () => {
+    const customMetricsExample = {
+        metrics: [
+            {
+                name: 'http_responses_total',
+                value: 1,
+                labels: {
+                    status: '200',
+                    method: 'GET',
+                },
+            },
+            {
+                name: 'http_responses_total',
+                value: 1,
+                labels: {
+                    status: '304',
+                    method: 'GET',
+                },
+            },
+        ],
+    };
+
+    return app.request
+        .post('/api/client/metrics/custom')
+        .send(customMetricsExample)
+        .expect(202);
+});
+
+test('should reject invalid custom metrics', async () => {
+    const invalidCustomMetrics = {
+        data: [
+            {
+                name: 'http_responses_total',
+                value: 1,
+            },
+        ],
+    };
+
+    return app.request
+        .post('/api/client/metrics/custom')
+        .send(invalidCustomMetrics)
+        .expect(400);
 });
 
 test('should emit response time metrics data in the correct path', async () => {

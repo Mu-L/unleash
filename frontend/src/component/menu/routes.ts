@@ -30,6 +30,7 @@ import { EditSegment } from 'component/segments/EditSegment/EditSegment';
 import type { INavigationMenuItem, IRoute } from 'interfaces/route';
 import { EnvironmentTable } from 'component/environments/EnvironmentTable/EnvironmentTable';
 import { SegmentTable } from '../segments/SegmentTable/SegmentTable.jsx';
+import { FeaturesArchiveTable } from 'component/archive/FeaturesArchiveTable';
 import { LazyPlayground } from 'component/playground/Playground/LazyPlayground';
 import { Profile } from 'component/user/Profile/Profile';
 import { LazyFeatureView } from 'component/feature/FeatureView/LazyFeatureView';
@@ -49,6 +50,7 @@ import { PersonalDashboard } from '../personalDashboard/PersonalDashboard.jsx';
 import { ReleaseManagement } from 'component/releases/ReleaseManagement/ReleaseManagement';
 import { CreateReleasePlanTemplate } from 'component/releases/ReleasePlanTemplate/CreateReleasePlanTemplate';
 import { EditReleasePlanTemplate } from 'component/releases/ReleasePlanTemplate/EditReleasePlanTemplate';
+import { ExploreCounters } from 'component/counters/ExploreCounters/ExploreCounters.js';
 
 export const routes: IRoute[] = [
     // Splash
@@ -125,24 +127,16 @@ export const routes: IRoute[] = [
         component: ArchiveProjectList,
         type: 'protected',
         menu: {},
+        enterprise: true,
     },
 
     // Flags overview
-    {
-        path: '/search',
-        title: 'Search',
-        component: FeatureToggleListTable,
-        type: 'protected',
-        menu: { primary: true },
-        notFlag: 'flagsReleaseManagementUI',
-    },
     {
         path: '/search',
         title: 'Flags overview',
         component: FeatureToggleListTable,
         type: 'protected',
         menu: { primary: true },
-        flag: 'flagsReleaseManagementUI',
     },
 
     // Playground
@@ -180,6 +174,16 @@ export const routes: IRoute[] = [
         component: PaginatedApplicationList,
         type: 'protected',
         menu: { main: true },
+    },
+
+    // Counters
+    {
+        path: '/custom-metrics',
+        title: 'Custom metrics',
+        component: ExploreCounters,
+        type: 'protected',
+        menu: { main: true },
+        flag: 'customMetrics',
     },
 
     // Context
@@ -444,6 +448,15 @@ export const routes: IRoute[] = [
         component: LoginHistory,
         type: 'protected',
         menu: { adminSettings: true },
+    },
+
+    // Archive
+    {
+        path: '/archive',
+        title: 'Archived flags',
+        component: FeaturesArchiveTable,
+        type: 'protected',
+        menu: {},
     },
 
     // Admin
